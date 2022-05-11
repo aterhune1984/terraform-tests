@@ -1,3 +1,8 @@
+
+# export AWS_ACCESS_KEY_ID="{key_ID}"
+# export AWS_SECRET_ACCESS_KEY="{key}"
+
+
 terraform {
   required_providers {
     aws = {
@@ -126,10 +131,13 @@ resource "aws_apigatewayv2_integration" "hello_world" {
   integration_method = "POST"
 }
 
-
 resource "aws_apigatewayv2_route" "hello_world" {
   api_id = aws_apigatewayv2_api.lambda.id
 
   route_key = "GET /hello"
   target    = "integrations/${aws_apigatewayv2_integration.hello_world.id}"
+}
+
+output "route_output" {
+  value = "${aws_apigatewayv2_stage.lambda.invoke_url}"
 }
